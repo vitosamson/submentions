@@ -6,6 +6,7 @@ services:
       DB_PATH: /mentions/mentions.db
     volumes:
       - /home/vito/projects/submentions:/mentions
+      - /home/vito/projects/submentions/credentials.json:/app/credentials.json
 
   mentions_submissions:
     image: vitosamson/submentions:pi
@@ -14,3 +15,4 @@ services:
       TYPE: submissions
     volumes:
       - /home/vito/projects/submentions:/mentions
+      - /home/vito/projects/submentions/credentials.json:/app/credentials.json
