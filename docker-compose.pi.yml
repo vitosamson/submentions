@@ -1,14 +1,14 @@
 version: "3.0"
 services:
   mentions_comments:
-    image: submentions:pi
+    image: vitosamson/submentions:pi
     environment:
       DB_PATH: /mentions/mentions.db
     volumes:
       - /home/vito/projects/submentions:/mentions
 
   mentions_submissions:
-    image: submentions:pi
+    image: vitosamson/submentions:pi
     environment:
       DB_PATH: /mentions/mentions.db
       TYPE: submissions
