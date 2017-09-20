@@ -32,7 +32,7 @@ mention_type = 'submissions' if 'TYPE' in os.environ and os.environ['TYPE'] == '
 sub_name = 'neutralpolitics'
 
 db = DB()
-slack = Slack(data.webhook_url)
+slack = Slack(data['slack']['webhook_url'])
 
 print('user:', reddit_user_name)
 print('key:', reddit_app_key)
