@@ -5,6 +5,7 @@ import traceback
 import praw #pylint: disable=import-error
 import prawcore #pylint: disable=import-error
 from db import DB
+from slack import Slack
 
 data = {}
 
@@ -31,6 +32,7 @@ mention_type = 'submissions' if 'TYPE' in os.environ and os.environ['TYPE'] == '
 sub_name = 'neutralpolitics'
 
 db = DB()
+slack = Slack(data.webhook_url)
 
 print('user:', reddit_user_name)
 print('key:', reddit_app_key)
@@ -43,20 +45,41 @@ def main():
   for item in stream:
     if mention_type == 'comments':
       if sub_name in item.body.lower() and sub_name not in item.permalink().lower():
-        db.save_mention(mention_type,
-                        str(item.subreddit).lower(),
-                        str(item.author).lower(),
-                        item.body,
-                        item.permalink(),
-                        int(item.created_utc))
+        db.save_mention(
+          mention_type,
+          str(item.subreddit).lower(),
+          str(item.author).lower(),
+          item.body,
+          item.permalink(),
+          int(item.created_utc)
+        )
+
+        slack.post_mention(
+          item.submission.title,
+          str(item.subreddit),
+          str(item.author),
+          item.body,
+          item.permalink()
+        )
+
     elif mention_type == 'submissions':
       if sub_name in item.url.lower() and sub_name not in str(item.subreddit).lower():
-        db.save_mention(mention_type,
-                        str(item.subreddit).lower(),
-                        str(item.author).lower(),
-                        item.selftext,
-                        item.permalink,
-                        int(item.created_utc))
+        db.save_mention(
+          mention_type,
+          str(item.subreddit).lower(),
+          str(item.author).lower(),
+          item.selftext,
+          item.permalink,
+          int(item.created_utc)
+        )
+
+        slack.post_mention(
+          item.title,
+          str(item.subreddit),
+          str(item.author),
+          item.selftext or '',
+          item.permalink
+        )
 
 while True:
   try:
