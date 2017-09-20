@@ -54,13 +54,14 @@ def main():
           int(item.created_utc)
         )
 
-        slack.post_mention(
-          item.submission.title,
-          str(item.subreddit),
-          str(item.author),
-          item.body,
-          item.permalink()
-        )
+        if str(item.author).lower() is not 'automoderator':
+          slack.post_mention(
+            item.submission.title,
+            str(item.subreddit),
+            str(item.author),
+            item.body,
+            item.permalink()
+          )
 
     elif mention_type == 'submissions':
       if sub_name in item.url.lower() and sub_name not in str(item.subreddit).lower():
