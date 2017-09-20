@@ -54,7 +54,7 @@ def main():
           int(item.created_utc)
         )
 
-        if str(item.author).lower() is not 'automoderator':
+        if str(item.author).lower() != 'automoderator':
           slack.post_mention(
             item.submission.title,
             str(item.subreddit),
