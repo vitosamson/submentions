@@ -8,13 +8,13 @@ class Slack():
 
     self.webhook_url = webhook_url
 
-  def post_mention(self, title, subreddit, author, body, permalink):
+  def post_mention(self, mention_type, title, subreddit, author, body, permalink):
     payload = {
       'attachments': [{
         'title': title,
         'text': body,
         'fallback': 'https://www.reddit.com' + permalink,
-        'color': 'warning',
+        'color': 'good' if mention_type == 'comments' else 'warning',
         'fields': [{
           'title': 'Subreddit',
           'value': '<https://www.reddit.com/r/{}|/r/{}>'.format(subreddit, subreddit),

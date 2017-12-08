@@ -56,6 +56,7 @@ def main():
 
         if str(item.author).lower() != 'automoderator':
           slack.post_mention(
+            mention_type,
             item.submission.title,
             str(item.subreddit),
             str(item.author),
@@ -75,6 +76,7 @@ def main():
         )
 
         slack.post_mention(
+          mention_type,
           item.title,
           str(item.subreddit),
           str(item.author),
@@ -89,7 +91,7 @@ while True:
     print('rate limit hit, sleeping 100 secs')
     print(str(err), flush=True)
     sleep(100)
-  except prawcore.exceptions.ServerError as err:
+  except (prawcore.exceptions.ServerError, prawcore.exceptions.Forbidden) as err:
     print('reddit API error, sleeping 30 secs')
     print(str(err), flush=True)
     sleep(30)
@@ -97,5 +99,3 @@ while True:
     print(str(err), flush=True)
     traceback.print_exc()
     sleep(1)
-  finally:
-    main()
