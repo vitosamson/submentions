@@ -1,6 +1,6 @@
 FROM python:alpine
 
-RUN pip install praw
+RUN pip3 install praw
 
 COPY . /app
 WORKDIR /app

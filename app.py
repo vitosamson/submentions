@@ -44,13 +44,13 @@ def main():
 
   for item in stream:
     if mention_type == 'comments':
-      if sub_name in item.body.lower() and sub_name not in item.permalink().lower():
+      if sub_name in item.body.lower() and sub_name not in item.permalink.lower():
         db.save_mention(
           mention_type,
           str(item.subreddit).lower(),
           str(item.author).lower(),
           item.body,
-          item.permalink(),
+          item.permalink,
           int(item.created_utc)
         )
 
@@ -61,7 +61,7 @@ def main():
             str(item.subreddit),
             str(item.author),
             item.body,
-            item.permalink()
+            item.permalink
           )
 
     elif mention_type == 'submissions':
